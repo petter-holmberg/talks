@@ -373,7 +373,7 @@ struct PaleolithicNatural
 
     // Constructor for the Stone Age person
     PaleolithicNatural(std::string const& x)
-       : n(x.length(), '.')
+       : n(x)
     {}
 
     // Constructor for the Renissance person
@@ -381,6 +381,38 @@ struct PaleolithicNatural
        : n(x, '.')
     {}
 };
+
+template<bool dotCompareValue>
+auto const
+dotCompare =
+    [](char leftDot, char rightDot)
+    {
+        // Both dots look the same to me
+        return dotCompareValue;
+    };
+
+// Helper function for splitting a string of dots into two piles, with support for rest elements
+template<typename PairHandler, typename LastElementHandler>
+auto
+splitDots(PaleolithicNatural const & x, PairHandler &&pairHandler, LastElementHandler &&lastHandler) -> void
+{
+    // Let's go through each pair of dots in this number
+    for(auto it = x.n.begin(); it != x.n.end(); ++ it)
+    {
+        auto next = it + 1;
+        // If we have two more dots, run the pair handler
+        if(next != x.n.end())
+        {
+            pairHandler(*it, *next);
+            ++ it;
+        }
+        // Otherwise we have one last dot
+        else
+        {
+            lastHandler(*it);
+        }
+    }
+}
 
 // Natural number type functions
 
@@ -400,7 +432,7 @@ struct arithmetic_tf<PaleolithicNatural> { using type = PaleolithicNatural; };
 auto
 operator==(PaleolithicNatural const& x0, PaleolithicNatural const& x1) -> bool
 {
-    return x0.n.length() == x1.n.length();
+    return std::equal(x0.n.begin(), x0.n.end(), x1.n.begin(), x1.n.end(), dotCompare<true>);
 }
 
 auto
@@ -413,7 +445,7 @@ operator!=(PaleolithicNatural const& x0, PaleolithicNatural const& x1) -> bool
 auto
 operator<(PaleolithicNatural const& x0, PaleolithicNatural const& x1) -> bool
 {
-    return x0.n.length() < x1.n.length();
+    return std::lexicographical_compare(x0.n.begin(), x0.n.end(), x1.n.begin(), x1.n.end(), dotCompare<false>);
 }
 
 // Natural number addition
@@ -427,9 +459,20 @@ operator+(PaleolithicNatural const& x0, PaleolithicNatural const& x1) -> Paleoli
 // Natural number half and is_odd
 
 auto
-half(PaleolithicNatural const& x) -> PaleolithicNatural
+half(PaleolithicNatural const & x) -> PaleolithicNatural
 {
-    return PaleolithicNatural(x.n.length() >> 1);
+    PaleolithicNatural halfBuilder;
+    splitDots(
+        x,
+        // Split the dots into two piles, for each pair, add one to our return value
+        [&halfBuilder](char firstDot, char seconDot)
+        {
+            halfBuilder.n += firstDot;
+        },
+        // Ignore the trailing dot as we're rounding down
+        [](char restDot) { }
+    );
+    return halfBuilder;
 }
 
 auto
@@ -441,7 +484,19 @@ twice(PaleolithicNatural const& x) -> PaleolithicNatural
 auto
 is_odd(PaleolithicNatural const& x) -> bool
 {
-    return x.n.length() & 1;
+    bool oddYet = false;
+    splitDots(
+        x,
+        // Split the dots into two piles, we don't care about complete pairs
+        [](char firstDot, char seconDot)
+        { },
+        // If we end up with a rest dot, x is odd
+        [&oddYet](char restDot)
+        {
+            oddYet = true;
+        }
+    );
+    return oddYet;
 }
 
 auto
@@ -530,7 +585,7 @@ auto
 multiply_paleolithic(PaleolithicNatural x0, PaleolithicNatural x1) -> PaleolithicNatural
 {
     PaleolithicNatural y;
-    for (size_t i = 0; i != x0.n.length(); ++i)
+    for (auto dot : x0.n)
     {
         y = y + x1;
     }
