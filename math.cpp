@@ -465,7 +465,7 @@ half(PaleolithicNatural const& x) -> PaleolithicNatural
     splitDots(
         x,
         // Split the dots into two piles, for each pair, add one to our return value
-        [&halfBuilder](char firstDot, char seconDot)
+        [&halfBuilder](char firstDot, char secondDot)
         {
             halfBuilder.n += firstDot;
         },
@@ -488,7 +488,7 @@ is_odd(PaleolithicNatural const& x) -> bool
     splitDots(
         x,
         // Split the dots into two piles, we don't care about complete pairs
-        [](char firstDot, char seconDot)
+        [](char firstDot, char secondDot)
         { },
         // If we end up with a rest dot, x is odd
         [&oddYet](char restDot)
