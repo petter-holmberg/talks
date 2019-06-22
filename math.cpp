@@ -385,7 +385,7 @@ struct PaleolithicNatural
 template<bool dotCompareValue>
 auto const
 dotCompare =
-    [](char leftDot, char rightDot)
+    [](char leftDot, char rightDot) -> bool
     {
         // Both dots look the same to me
         return dotCompareValue;
@@ -394,7 +394,7 @@ dotCompare =
 // Helper function for splitting a string of dots into two piles, with support for rest elements
 template<typename PairHandler, typename LastElementHandler>
 auto
-splitDots(PaleolithicNatural const & x, PairHandler &&pairHandler, LastElementHandler &&lastHandler) -> void
+splitDots(PaleolithicNatural const& x, PairHandler&& pairHandler, LastElementHandler&& lastHandler) -> void
 {
     // Let's go through each pair of dots in this number
     for(auto it = x.n.begin(); it != x.n.end(); ++ it)
@@ -459,7 +459,7 @@ operator+(PaleolithicNatural const& x0, PaleolithicNatural const& x1) -> Paleoli
 // Natural number half and is_odd
 
 auto
-half(PaleolithicNatural const & x) -> PaleolithicNatural
+half(PaleolithicNatural const& x) -> PaleolithicNatural
 {
     PaleolithicNatural halfBuilder;
     splitDots(
