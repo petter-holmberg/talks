@@ -1,3 +1,14 @@
+Generisk Programmering
+----------------------
+
+A breakfast talk in Swedish for Biolit, held at Urban Deli on March 30, 2022
+
+Includes generic.py with some supplementary Python 3 code. Released under The Unlicense.
+
+Att skriva kod som effektivt löser specifika problem och samtidigt är maximalt återanvändbar är ingen lätt uppgift. Ofta kan det kännas som en nästan omöjlig kombination. Generisk programmering är ett angreppssätt för att uppnå det målet genom att skriva om algoritmer för konkreta problem så att de passar in i ett större sammanhang. Metoden är inspirerad av en flera tusen år gammal matematisk tradition.
+
+I det här seminariet ska vi titta på ett exempel, där lösningen på ett av tidernas äldsta räkneproblem har vidareutvecklats till kod för att elegant lösa några av dagens viktigaste mjukvaruuppgifter. Vägen dit är också en spännande historia om några av de personer som har bidragit till att hitta lösningen genom att utmana gamla förlegade idéer.
+
 Functional Parsing in C++20
 ---------------------------
 
