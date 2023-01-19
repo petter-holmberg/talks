@@ -1,3 +1,12 @@
+Programming with Concepts
+-------------------------
+
+A talk for Sweden C++ Stockholm 0x25, held at Atlas Copco Tools on January 19, 2023
+
+2023 is the year of a new C++ ISO standard, with many new features to learn about as we are still struggling to get a grasp of previous ones. Concepts was one of the major additions to C++20 and is starting to see real-world usage outside of the standard library. But how do you get started using concepts in your own code?
+
+This talk is an attempt at answering this question, based on my personal experience with concepts over the last few years. It is not a deep dive into syntax and technical details but focuses more on how to think about concepts and how they interact with your code.
+
 Generisk Programmering
 ----------------------
 
